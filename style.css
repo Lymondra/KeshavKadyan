@@ -1,0 +1,100 @@
+/* Colours, fonts and one spacing scale: neutrals plus ONE teal accent */
+:root {
+  --bg: #0B0F14; --text: #E8EDF2; --muted: #AAB4C0; --line: #26303B;
+  --accent: #4FD1C5; --paper: #FFFFFF; --ink: #111111;
+  --s1: 8px; --s2: 24px; --s3: 40px; --s4: 64px; --edge: 24px;
+  --serif: "EB Garamond", Garamond, Georgia, serif;
+  --sans: "Inter", Arial, Helvetica, sans-serif;
+}
+
+/* Base page: near-black background, Inter body text */
+* { box-sizing: border-box; }
+html { scroll-padding-top: 112px; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 1.0625rem; line-height: 1.6; }
+
+/* Headings: Garamond, with more space above than below */
+h1, h2, h3 { margin: 0 0 var(--s1); font-family: var(--serif); font-weight: 500; line-height: 1.15; }
+h1 { margin-bottom: var(--s2); font-size: clamp(2.75rem, 8vw, 4.5rem); }
+h2 { margin-bottom: var(--s2); font-size: 2.25rem; }
+h3 { font-size: 1.5rem; }
+
+/* Paragraphs: never wider than about 70 characters */
+p { max-width: 70ch; margin: 0 0 var(--s1); }
+
+/* Links: the teal accent is only used for links and buttons */
+a { color: var(--accent); text-underline-offset: 3px; transition: color 0.15s; }
+a:hover { color: var(--text); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* Navigation bar: flexbox, stays at the top of the screen */
+header { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); }
+.nav { display: flex; align-items: center; flex-wrap: wrap; gap: var(--s1) var(--s2); max-width: 1000px; margin: 0 auto; padding: var(--s1) var(--edge); }
+.nav-brand { display: flex; align-items: center; min-height: 44px; margin-right: auto; color: var(--text); font-family: var(--serif); font-size: 1.5rem; text-decoration: none; }
+.nav-links { display: flex; flex-wrap: wrap; gap: 0 var(--s2); margin: 0; padding: 0; list-style: none; }
+.nav-link { display: flex; align-items: center; min-height: 44px; color: var(--muted); text-decoration: none; }
+.nav-link:hover { color: var(--text); text-decoration: underline; }
+
+/* Page sections: one centred column, 64px of space between sections */
+main > section { max-width: 1000px; margin: 0 auto; padding: var(--s4) var(--edge); }
+
+/* Buttons: teal fill for the main action, teal outline for the others */
+.actions { display: flex; flex-wrap: wrap; gap: var(--s1); margin-top: var(--s2); }
+.button {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; padding: 0 var(--s2);
+  border: 1px solid var(--accent); border-radius: 4px;
+  background: var(--accent); color: var(--bg);
+  font-weight: 600; text-decoration: none;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+.button:hover { border-color: var(--text); background: var(--text); color: var(--bg); }
+.button-outline { background: transparent; color: var(--accent); }
+.button-outline:hover { border-color: var(--text); background: transparent; color: var(--text); }
+
+/* Hero: name, one sentence and two buttons */
+#hero p { font-size: 1.25rem; }
+
+/* Experience cards: flat, thin full outline, three across */
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s2); }
+.card { padding: var(--s2); border: 1px solid var(--line); border-radius: 4px; }
+.card p, .list p { color: var(--muted); }
+
+/* Education: a plain list, no boxes */
+.list { display: grid; gap: var(--s2); margin: 0; padding: 0; list-style: none; }
+
+/* Resume area: download link, then the white paper sheet */
+.download { display: inline-flex; align-items: center; min-height: 44px; }
+#resume { max-width: 794px; margin-top: var(--s2); padding: var(--s3); background: var(--paper); color: var(--ink); font-size: 0.95rem; line-height: 1.5; }
+#resume a { color: var(--ink); }
+#resume a:hover { opacity: 0.7; }
+#resume h3 { margin: var(--s2) 0 var(--s1); border-bottom: 1px solid var(--ink); font-size: 1.15rem; }
+#resume ul { margin: 0 0 var(--s1); padding-left: 20px; }
+.resume-name { margin: 0; font-family: var(--serif); font-size: 2rem; line-height: 1.2; }
+.role { margin: var(--s1) 0 0; font-weight: 600; }
+
+/* Phones narrower than 700px: one column, smaller side space, full-width buttons */
+@media (max-width: 699px) {
+  :root { --edge: 16px; }
+  h2 { font-size: 1.75rem; }
+  main > section { padding-top: var(--s3); padding-bottom: var(--s3); }
+  .nav > .button { order: 2; }
+  .nav-links { order: 3; width: 100%; justify-content: space-between; gap: 0 var(--s1); }
+  .cards { grid-template-columns: 1fr; }
+  .actions .button { flex: 1 1 100%; }
+  #resume { padding: var(--s2) var(--edge); }
+}
+
+/* Turn off colour transitions for people who ask for less motion */
+@media (prefers-reduced-motion: reduce) {
+  a, .button { transition: none; }
+}
+
+/* Print: only the resume, black on white, one A4 page */
+@media print {
+  @page { size: A4; margin: 12mm; }
+  body { background: var(--paper); color: var(--ink); }
+  header, main > section:not(#resume-area), #resume-area > :not(#resume) { display: none; }
+  #resume-area { padding: 0; }
+  #resume { max-width: none; margin: 0; padding: 0; font-size: 10pt; line-height: 1.35; }
+  #resume p { max-width: none; }
+}
